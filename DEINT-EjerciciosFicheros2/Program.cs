@@ -17,11 +17,21 @@ if (Directory.Exists(ruta1))
 	{
 		ficheros = Directory.GetFiles(ruta1);
 
-		foreach (String file in ficheros)
-		{
-            //combinar rutas
+		DateTime tiempo = File.GetLastAccessTime(Path.Combine(ruta1, ficheros[0]));
+		String ultFicheroAbierto = ficheros[0];
 
+        foreach (String file in ficheros)
+		{
+			rutaFichero = Path.Combine(ruta1, file);
+
+			if (File.GetLastAccessTime(rutaFichero) > tiempo)
+			{
+				tiempo = File.GetLastAccessTime(rutaFichero);
+				ultFicheroAbierto = file;
+            }
         }
+
+		Console.WriteLine($"El fichero al que se ha accedido más recientemente es: {ultFicheroAbierto}");
 	}
 	else
 	{
@@ -32,3 +42,8 @@ else
 {
     Console.WriteLine("La ruta introducida no existe.");
 }
+
+
+Console.WriteLine("-------2-------");
+Console.WriteLine("Introduzca una ruta");
+ruta1 = Console.ReadLine();
